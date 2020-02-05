@@ -30,6 +30,6 @@
  */
 ! -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-  <module name="Apptha_Marketplace" setup_version="1.4">
+  <module name="Apptha_Marketplace" setup_version="1.9" schema_version="1.9">
   </module>
 </config>

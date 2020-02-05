@@ -111,8 +111,23 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     ->setComment('Customer Category Table');
                 $installer->getConnection()->createTable($table);
             }
+			
         }
-
+		
+		if(version_compare($context->getVersion(), '1.9', '<')) {
+				///echo version_compare($context->getVersion(), '1.5', '<');exit;
+				$installer->getConnection()->addColumn(
+	                $installer->getTable('marketplace_sellercategory'),
+	                'parent_category_id',
+	                [
+	                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+	                    'length' => 10,
+	                    'nullable' => true,
+	                    'comment' => 'Parent Category Id'
+	                ]
+	            );
+			}
+		///echo version_compare($context->getVersion(), '1.5', '<');exit;
         $installer->endSetup();
     }
 }

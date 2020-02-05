@@ -1,0 +1,32 @@
+<fieldset class="fieldset">
+<div class="product-url">
+                <a href="<?php echo $block->getUrl('marketplace/category/add') ?>"
+                    class="action submit primary"><?php echo __('Add New Category'); ?></a>
+ </div>
+</fieldset>
+
+<div class="toolbar top">
+         <?php echo $block->getPagerHtml(); ?>
+      </div>
+
+<table class="manage-product-table">
+ <tr class="header" style="background: #ddd;">
+<th><?php echo __('Category Name')?></th>
+<th><?php echo __('Category Description')?></th>
+<th><?php echo __('Status')?></th>
+</tr>
+<?php foreach($block->getCategories() as $category): ?>
+<tr>
+<td> <?= $category->getData('category_name') ?> </td>
+<td> <?= $category->getData('category_description') ?> </td>
+
+<td> <?= $category->getData('status') == 1 ? "Approved" : "Disapproved"  ?> </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<div class="toolbar-bottom">
+                <div class="toolbar bottom">
+            <?php echo $block->getPagerHtml(); ?>
+         </div>
+</div>

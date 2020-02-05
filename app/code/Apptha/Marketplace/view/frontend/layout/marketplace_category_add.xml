@@ -5,9 +5,12 @@ Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account" />
     <head>
         <css src="Apptha_Marketplace::css/style.css" />
+        <css src="extjs/resources/css/ext-all.css"/>
+        <css src="extjs/resources/css/ytheme-magento.css"/>
     </head>
     <body>
     <referenceContainer name="content">
+		<block class="Magento\Catalog\Block\Adminhtml\Category\Tree" name="category.tree" template="Apptha_Marketplace::category/tree.phtml"/>
         <block class="Apptha\Marketplace\Block\Category\Add" name="marketplace_category_add" template="category/add.phtml"  />
     </referenceContainer>
     </body>

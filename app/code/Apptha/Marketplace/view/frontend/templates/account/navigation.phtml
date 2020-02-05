@@ -77,8 +77,8 @@ $reviewSellerId = $this->getRequest ()->getParam ( 'seller_id' );
                 class="nav item <?php if($currentUrl==$block->getUrl('marketplace/assignproduct/manage')|| $currentUrl==$block->getUrl('marketplace/assignproduct/search')){?>current<?php }?>"><a
                 href="<?php echo $block->getUrl('marketplace/assignproduct/manage') ?>"><?php echo __('Assign Product'); ?></a></li>
         <?php }?>
-            <li class="nav item <?php if($currentUrl==$block->getUrl('marketplace/category/add')){?>current<?php }?>"><a
-                        href="<?php echo $block->getUrl('marketplace/category/add') ?>"><?php echo __('Add New Category'); ?></a></li>
+            <li class="nav item <?php if($currentUrl==$block->getUrl('marketplace/category/manage')){?>current<?php }?>"><a
+                        href="<?php echo $block->getUrl('marketplace/category/manage') ?>"><?php echo __('Manage Category '); ?></a></li>
         <li  class="nav item <?php if($currentUrl==$block->getUrl('marketplace/seller/profile')){?>current<?php }?>"><a
                 href="<?php echo $block->getUrl('marketplace/seller/profile') ?>"><?php echo __('My Store'); ?></a></li>
             <li class="nav item <?php if($currentUrl==$block->getUrl('marketplace/order/manage')){?>current<?php }?>"><a
