@@ -9,6 +9,8 @@ class Manage extends \Magento\Framework\View\Element\Template
 
 	protected $_categoryFactory;
 	protected $_customerSessionFactory;
+	
+	protected $_collectionFactory;
     /**
      * Add constructor.
      * @param Template\Context $context
@@ -16,10 +18,13 @@ class Manage extends \Magento\Framework\View\Element\Template
      * @param array $data
      */
     public function __construct(Template\Context $context, \Apptha\Marketplace\Model\CategoryFactory $categoryFactory, 
-	\Magento\Customer\Model\SessionFactory $customerSessionFactory, array $data = [])
+	\Magento\Customer\Model\SessionFactory $customerSessionFactory,
+	\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $collecionFactory,
+	 array $data = [])
     {
         $this->_categoryFactory = $categoryFactory;
 		$this->_customerSessionFactory = $customerSessionFactory;
+		$this->_collectionFactory = $collecionFactory;
         parent::__construct($context, $data);
     }
 	
@@ -36,6 +41,7 @@ class Manage extends \Magento\Framework\View\Element\Template
 	            $this->getCategories()
 	        );
 	        $this->setChild('pager', $pager);
+			
 	    }
 	    return $this;
 	}
@@ -45,16 +51,29 @@ class Manage extends \Magento\Framework\View\Element\Template
 		$customerSession = $this->_customerSessionFactory->create();
 		$customer = $customerSession->getCustomer();
 		$page=($this->getRequest()->getParam('p'))? $this->getRequest()->getParam('p') : 1;
-		$pageSize=($this->getRequest()->getParam('limit'))? $this->getRequest()->getParam('limit') : 1;
-		$categories = $this->_categoryFactory->create();
-		$categories->setPageSize($pageSize);
-        $categories = $categories->setCurPage($page)->getCollection()->addFieldToFilter('customer_id', $customer->getId());
+		$pageSize=($this->getRequest()->getParam('limit'))? $this->getRequest()->getParam('limit') : 5;
+        $categories = $this->_categoryFactory->create()->getCollection()->addFieldToFilter('customer_id', $customer->getId())->setCurPage($page)->setPageSize($pageSize);
         return $categories;
 	}
 	
 	public function getPagerHtml() {
         return $this->getChildHtml ( 'pager' );
     }
+	
+	
+	public function getCategoryNameById($id){
+		$categoryName = "root";
+		$collection = $this->_collectionFactory
+                ->create()
+                ->addAttributeToFilter('entity_id',$id)
+				->addAttributeToSelect('name')
+                ->setPageSize(1);
+
+		if ($collection->getSize()) {
+		    $categoryName = $collection->getFirstItem()->getName();
+		}
+		return $categoryName;
+	}
 
     
 

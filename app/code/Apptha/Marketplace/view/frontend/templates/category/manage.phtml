@@ -13,12 +13,14 @@
  <tr class="header" style="background: #ddd;">
 <th><?php echo __('Category Name')?></th>
 <th><?php echo __('Category Description')?></th>
+<th><?php echo __('Parent Category')?></th>
 <th><?php echo __('Status')?></th>
 </tr>
 <?php foreach($block->getCategories() as $category): ?>
 <tr>
 <td> <?= $category->getData('category_name') ?> </td>
 <td> <?= $category->getData('category_description') ?> </td>
+<td> <?= $block->getCategoryNameById($category->getData('parent_category_id')) ?> </td>
 
 <td> <?= $category->getData('status') == 1 ? "Approved" : "Disapproved"  ?> </td>
 </tr>
