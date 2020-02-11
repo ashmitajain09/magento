@@ -39,7 +39,7 @@ class Savecategory extends \Magento\Framework\App\Action\Action
              */
             $name = $this->getRequest()->getPost('name');
             $description = $this->getRequest()->getPost('description');
-
+			$parentId = $this->getRequest()->getPost('parent_category');
             /**
              * Getting date data using datetime object
              */
@@ -52,7 +52,7 @@ class Savecategory extends \Magento\Framework\App\Action\Action
             $categoryModel->setCategoryName($name);
             $categoryModel->setCategoryDescription($description);
             $categoryModel->setStoreId($storeId);
-
+			$categoryModel->setParentCategoryId($parentId);
             /**
              * Checking for auto approval option
              */
