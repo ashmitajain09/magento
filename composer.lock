@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b5a38361a4ade952e406542bbfc0087",
+    "content-hash": "3a58e7a23469082c11e4d6766f6b9eb5",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -873,7 +873,6 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
-            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {

@@ -35,7 +35,7 @@
   <preference for="Magento\Customer\Controller\Adminhtml\Index\Delete" type="Apptha\Marketplace\Controller\Adminhtml\Index\Delete" />
   <preference for="Magento\Customer\Controller\Adminhtml\Index\InlineEdit" type="Apptha\Marketplace\Controller\Adminhtml\Index\MarketplaceInline" />
   <preference for="Magento\Customer\Controller\Adminhtml\Index\MassAssignGroup" type="Apptha\Marketplace\Controller\Adminhtml\Index\MassAssignGroup" />
-<!--  <preference for="Magento\Checkout\Controller\Cart\Add" type="Apptha\Marketplace\Controller\Assignproduct\Cart\Add" />-->
+  <preference for="Magento\Checkout\Controller\Cart\Add" type="Apptha\Marketplace\Controller\Assignproduct\Cart\Add" />
   <preference for="Magento\Customer\Controller\Account\LoginPost" type="Apptha\Marketplace\Controller\Account\LoginPost" />
   <preference for="Magento\Sales\Block\Order\PrintShipment" type="Magento\Sales\Block\Order\Items" />
 <!--  <preference for="Magento\Checkout\Block\Cart" type="Apptha\Marketplace\Block\Cart" />-->
