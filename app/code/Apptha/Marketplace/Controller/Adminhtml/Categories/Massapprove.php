@@ -42,13 +42,13 @@ class Massapprove extends Categories {
         foreach ( $approvalIds as $approvalId ) {
             try {
                 $category = $this->_objectManager->get ( '\Apptha\Marketplace\Model\Category' );
-                $category->load ( $approvalId )->setStatus ( 1 )->save ();
+                $category->load ( $approvalId )->setStatus ( 1 )->setCategoryStatus ( 1 )->save ();
                 $categoryDetails = $category->load ( $approvalId );
                 $catId = $categoryDetails->getId ();
 				$catName = $categoryDetails->getCategoryName ();
 				if($catName!="") {
 					$cateId = $this->save_category($catName);
-					
+					$category->load ( $approvalId )->setMageCategoryId( $cateId  )->save ();
 				}
             } catch ( \Exception $e ) {
                 $this->messageManager->addError ( $e->getMessage () );

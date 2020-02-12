@@ -115,7 +115,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 		
 		if(version_compare($context->getVersion(), '1.9', '<')) {
-				///echo version_compare($context->getVersion(), '1.5', '<');exit;
 				$installer->getConnection()->addColumn(
 	                $installer->getTable('marketplace_sellercategory'),
 	                'parent_category_id',
@@ -127,7 +126,32 @@ class UpgradeSchema implements UpgradeSchemaInterface
 	                ]
 	            );
 			}
-		///echo version_compare($context->getVersion(), '1.5', '<');exit;
+			
+		if(version_compare($context->getVersion(), '1.9.1', '<')) {
+				$installer->getConnection()->addColumn(
+	                $installer->getTable('marketplace_sellercategory'),
+	                'mage_category_id',
+	                [
+	                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+	                    'length' => 10,
+	                    'nullable' => true,
+	                    'comment' => 'Magento Category Id'
+	                ]
+	            );
+		}
+		if(version_compare($context->getVersion(), '1.9.2', '<')) {
+				$installer->getConnection()->addColumn(
+	                $installer->getTable('marketplace_sellercategory'),
+	                'category_status',
+	                [
+	                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+	                    'length' => 10,
+	                    'nullable' => true,
+	                    'comment' => 'category enable  or disable'
+	                ]
+	            );
+		}
+		
         $installer->endSetup();
     }
 }

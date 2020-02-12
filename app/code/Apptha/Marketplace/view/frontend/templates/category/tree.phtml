@@ -376,7 +376,7 @@
                         id: <?= (int)$block->getRoot()->getId() ?>,
                         expanded: <?= (int)$block->getIsWasExpanded() ?>,
                         store_id: <?= (int)$block->getStore()->getId() ?>,
-                        category_id: <?= (int)$block->getCategoryId() ?>,
+                        category_id: <?= (int)$block->getActiveCategory() ?>,
                         parent: <?= (int)$block->getRequest()->getParam('parent') ?>
                     },
                     data: <?= /* @noEscape */ $block->getTreeJson() ?>

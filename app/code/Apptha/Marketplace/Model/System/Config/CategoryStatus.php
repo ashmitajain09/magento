@@ -35,10 +35,9 @@ use Magento\Framework\Option\ArrayInterface;
 /**
  * This class contains seller Status functions
  */
-class Status implements ArrayInterface {
+class CategoryStatus implements ArrayInterface {
     const ENABLED = 1;
-    const DISABLED = 0;
-	const MODIFIED = 2;
+	const DISABLED = 2;
     
     /**
      * Function to get Options
@@ -47,9 +46,8 @@ class Status implements ArrayInterface {
      */
     public function toOptionArray() {
         return [ 
-                static::ENABLED => __ ( 'Approved' ),
-                static::DISABLED => __ ( 'Disapproved' ),
-				static::MODIFIED => __ ( 'Modified' )
+                static::ENABLED => __ ( 'Enable' ),
+                static::DISABLED => __ ( 'Disable' )
         ];
     }
 }

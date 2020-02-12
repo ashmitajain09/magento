@@ -23,22 +23,38 @@
  * @copyright Copyright (c) 2017 Apptha. (http://www.apptha.com)
  * @license http://www.apptha.com/LICENSE.txt
  */
+
+$category = $block->getCurrentCategory();
 ?>
 <div>
-        
     <form action='<?php echo $block->saveCategoryUrl(); ?>'
           id="add_category_form" method="post">
+
+<div class="product_status" >
+<?php 
+$status = $category->getCategoryStatus()
+?>
+        <label for="status" class="label"><span><?php echo __('Category Status') ?></span></label>
+        <select id="status" name="category_status"
+            title="<?php echo __('Enable Category') ?>"
+            class="validate-select">
+	<option value="" ><?php echo __('Please Select'); ?></option>
+            <option value="1" <?php if($status == 1){ echo 'selected="selected"'; } ?>><?php echo __('Enable'); ?></option>
+            <option value="2"<?php if($status == 2){ echo 'selected="selected"'; } ?>><?php echo __('Disable'); ?></option>
+        </select>
+    </div>
         <p class="mp_seller_comments">
             <label for="category"> <?php echo __('Name:'); ?>  </label><em style="color: red; font-weight: normal; font-family: 'Open Sans', sans-serif; font-size: 12px;">*</em>
-            <input type="text" name="name" data-validate="{required:true}"/>
+            <input type="text" name="name" data-validate="{required:true}" value="<?= $category->getCategoryName() ?>"/>
         </p>
         <p class="mp_seller_comments">
             <label for="feedback"> <?php echo __('Description:'); ?>  </label><em style="color: red; font-weight: normal; font-family: 'Open Sans', sans-serif; font-size: 12px;">*</em>
             <textarea id="feedback" rows="9" cols="49"
                       name="description" class="input-text"
-                      data-validate="{required:true}"></textarea>
+                      data-validate="{required:true}"> <?= $category->getCategoryDescription() ?> </textarea>
         </p>
-	<input type="hidden" name="parent_category" id="parent_category" value="" />
+	<input type="hidden" name="category_id" id="category_id" value="<?= $category->getId() ?>" />
+	<input type="hidden" name="parent_category" id="parent_category" value="<?= $category->getParentCategoryId() ?>" />
         <button type="submit" class="button"
                 title="<?php echo __('Submit Category') ?>"
                 name="submit_category">

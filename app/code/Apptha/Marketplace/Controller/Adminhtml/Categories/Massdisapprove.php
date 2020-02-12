@@ -42,7 +42,7 @@ class Massdisapprove extends Categories {
         foreach ( $disApprovalIds as $disApprovalId ) {
             try {
                 $category = $this->_objectManager->get ( '\Apptha\Marketplace\Model\Category' );
-                $category->load ( $disApprovalId )->setStatus ( 0 )->save ();
+                $category->load ( $disApprovalId )->setStatus ( 0 )->setCategoryStatus ( 0 )->save ();
                 $categoryDetails = $category->load ( $disApprovalId );
                 $catId = $categoryDetails->getId ();
             } catch ( \Exception $e ) {
