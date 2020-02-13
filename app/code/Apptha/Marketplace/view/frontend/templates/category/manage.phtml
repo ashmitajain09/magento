@@ -15,6 +15,7 @@
 <th><?php echo __('Category Description')?></th>
 <th><?php echo __('Parent Category')?></th>
 <th><?php echo __('Status')?></th>
+<th><?php echo __('Action')?></th>
 </tr>
 <?php foreach($block->getCategories() as $category): ?>
 <tr>
@@ -23,6 +24,7 @@
 <td> <?= $block->getCategoryNameById($category->getData('parent_category_id')) ?> </td>
 
 <td> <?= $category->getData('status') == 1 ? "Approved" : "Disapproved"  ?> </td>
+<td> <a href="<?= $block->getUrl('*/*/edit', ['id' => $category->getData('id')]) ?>"> Edit </a> </td>
 </tr>
 <?php endforeach; ?>
 </table>

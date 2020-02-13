@@ -99,6 +99,18 @@
 							<argument name="renderer" xsi:type="string">Apptha\Marketplace\Block\Adminhtml\Categories\Grid\Renderer\Name</argument>
 						</arguments>
 					</block>
+					
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="parent_category_name">
+						<arguments>
+							<argument name="header" xsi:type="string" translate="true">Parent Category
+								Name</argument>
+							<argument name="index" xsi:type="string">id</argument>
+							<argument name="filter" xsi:type="boolean">false</argument>
+							<argument name="sortable" xsi:type="boolean">false</argument>
+							<argument name="renderer" xsi:type="string">Apptha\Marketplace\Block\Adminhtml\Categories\Grid\Renderer\ParentCategory</argument>
+						</arguments>
+					</block>
+					
 					<block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
 						<arguments>
 							<argument name="header" xsi:type="string" translate="true">Status</argument>
@@ -106,6 +118,15 @@
 							<argument name="type" xsi:type="string">options</argument>
 							<argument name="options" xsi:type="options"
 								model="Apptha\Marketplace\Model\System\Config\Status" />
+						</arguments>
+					</block>
+					<block class="Magento\Backend\Block\Widget\Grid\Column" as="category_status">
+						<arguments>
+							<argument name="header" xsi:type="string" translate="true">Category Status</argument>
+							<argument name="index" xsi:type="string">category_status</argument>
+							<argument name="type" xsi:type="string">options</argument>
+							<argument name="options" xsi:type="options"
+								model="Apptha\Marketplace\Model\System\Config\CategoryStatus" />
 						</arguments>
 					</block>
 					<block class="Magento\Backend\Block\Widget\Grid\Column" as="edit"
