@@ -46,7 +46,7 @@ class Name extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance ();
         $catDetails = $objectManager->get ( 'Apptha\Marketplace\Model\Category' )->load ( $catId );
         $name = $catDetails->getCategoryName ();
-        $categoryUrl = $this->getUrl ( 'categories/approve/execute/id/' . $catId );
+        $categoryUrl = $this->getUrl ( 'catalog/category/edit/id/' .$catDetails->getData("mage_category_id" ));
         return '<a  href="' . $categoryUrl . '" alt= "' . $name . '">' . $name . '</a>';
     }
 }
