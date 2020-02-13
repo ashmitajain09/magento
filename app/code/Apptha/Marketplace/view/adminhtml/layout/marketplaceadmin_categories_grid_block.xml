@@ -135,7 +135,7 @@
 							<argument name="id" xsi:type="string">edit</argument>
 							<argument name="header" xsi:type="string" translate="true">Action</argument>
 							<argument name="type" xsi:type="string">action</argument>
-							<argument name="getter" xsi:type="string">getCustomerId</argument>
+							<argument name="getter" xsi:type="string">getId</argument>
 							<argument name="filter" xsi:type="boolean">false</argument>
 							<argument name="sortable" xsi:type="boolean">false</argument>
 							<argument name="index" xsi:type="string">stores</argument>
