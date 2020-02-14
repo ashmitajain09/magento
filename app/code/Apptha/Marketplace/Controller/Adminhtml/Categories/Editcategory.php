@@ -1,6 +1,6 @@
 <?php
 
-namespace Apptha\Marketplace\Controller\Category;
+namespace Apptha\Marketplace\Controller\Adminhtml\Categories;
 
 /**
  * This class contains the seller review section

@@ -33,8 +33,8 @@
 	xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
 	<body>
 		<referenceContainer name="content">
-			<block class="Apptha\Marketplace\Block\Adminhtml\Categories\Edit"
-				name="apptha_marketplace_categories.edit" />
+				<block class="Apptha\Marketplace\Block\Adminhtml\Categories\Tree" name="apptha_marketplace_categories.tree" template="Apptha_Marketplace::category/tree.phtml"/>
+				<block class="Apptha\Marketplace\Block\Adminhtml\Categories\Edit" name="apptha_marketplace_categories.edit" template="Apptha_Marketplace::category/edit.phtml"/>
 		</referenceContainer>
 	</body>
 </page>
