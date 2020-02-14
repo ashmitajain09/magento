@@ -31,8 +31,26 @@
 namespace Apptha\Marketplace\Controller\Adminhtml\Categories;
 
 use Apptha\Marketplace\Controller\Adminhtml\Categories;
+use Magento\Store\Model\Store;
 
-class Massapprove extends Categories {
+class Massapprove extends \Magento\Backend\App\Action {
+
+	protected $sellerCategoryFactory;
+	
+	protected $categoryFactory;
+	
+	public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+		\Apptha\Marketplace\Model\CategoryFactory $sellerCategoryFactory,
+		\Magento\Catalog\Model\CategoryFactory $categoryFactory
+    ) {
+	
+		$this->sellerCategoryFactory = $sellerCategoryFactory;
+		$this->categoryFactory = $categoryFactory;
+        parent::__construct($context);
+    }
+	
+	
     /**
      *
      * @return void
@@ -41,14 +59,27 @@ class Massapprove extends Categories {
         $approvalIds = $this->getRequest ()->getParam ( 'approve' );
         foreach ( $approvalIds as $approvalId ) {
             try {
-                $category = $this->_objectManager->get ( '\Apptha\Marketplace\Model\Category' );
-                $category->load ( $approvalId )->setStatus ( 1 )->setCategoryStatus ( 1 )->save ();
-                $categoryDetails = $category->load ( $approvalId );
-                $catId = $categoryDetails->getId ();
-				$catName = $categoryDetails->getCategoryName ();
-				if($catName!="") {
-					$cateId = $this->save_category($catName);
+                $category = $this->sellerCategoryFactory->create();
+               	$categoryDetails = $category->load ( $approvalId );
+				if($categoryDetails->getMageCategoryId() == NULL ) {
+					$categoryDetails->setStatus ( 1 )->setCategoryStatus ( 1 )->save ();
+	                $categoryDetails = $category->load ( $approvalId );
+	                $catId = $categoryDetails->getId ();
+					$catName = $categoryDetails->getCategoryName ();
+					$parentId = $categoryDetails->getParentCategoryId();
+					$cateId = $this->save_category($catName , $parentId);
 					$category->load ( $approvalId )->setMageCategoryId( $cateId  )->save ();
+				}elseif($categoryDetails->getStatus() == 2){
+					
+					$mage_cat = $this->categoryFactory->create()->setStoreId(Store::DEFAULT_STORE_ID)->load($categoryDetails->getMageCategoryId())
+																->setData('is_active' , $categoryDetails->getCategoryStatus())
+																->setData('name', $categoryDetails->getCategoryName())
+																->setData('store_data' , Store::DEFAULT_STORE_ID)
+																->save();
+					if($mage_cat->getParentId() != $categoryDetails->getParentCategoryId()){
+						$mage_cat = $mage_cat->move($categoryDetails->getParentCategoryId() , null);
+					}
+					$categoryDetails->setStatus ( 1 )->save();
 				}
             } catch ( \Exception $e ) {
                 $this->messageManager->addError ( $e->getMessage () );
@@ -60,12 +91,12 @@ class Massapprove extends Categories {
         $this->_redirect ( '*/*/index' );
     }
 	
-	public function save_category($CategoryName=NULL) {
+	public function save_category($CategoryName=NULL , $parentId = 2) {
 		if($CategoryName!=NULL) {
 			//$parentId = \Magento\Catalog\Model\Category::TREE_ROOT_ID; //This will return value 1
-			$parentId = 2; // We have set parent category as a DEFAULT CATEGORY
-			$parentCategory = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($parentId);
-			$category = $this->_objectManager->create('Magento\Catalog\Model\Category');
+			//$parentId = 2; // We have set parent category as a DEFAULT CATEGORY
+			$parentCategory = $this->categoryFactory->create()->load($parentId);
+			$category = $this->categoryFactory->create();
 			
 			//Check exist category
 			$cate = $category->getCollection()

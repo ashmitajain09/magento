@@ -23,7 +23,13 @@
 <td> <?= $category->getData('category_description') ?> </td>
 <td> <?= $block->getCategoryNameById($category->getData('parent_category_id')) ?> </td>
 
-<td> <?= $category->getData('status') == 1 ? "Approved" : "Disapproved"  ?> </td>
+<td> <?php if($category->getData('status') == 1){
+echo __("Approved") ;
+}elseif($category->getData('status') == 0){
+echo __("Disapproved");
+}else{
+echo __("Modified");
+} ?> </td>
 <td> <a href="<?= $block->getUrl('*/*/edit', ['id' => $category->getData('id')]) ?>"> Edit </a> </td>
 </tr>
 <?php endforeach; ?>
