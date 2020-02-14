@@ -42,10 +42,10 @@ class Editcategory extends \Magento\Backend\App\Action
 			$category = $this->categoryFactory->create()->load($categoryId);
 			$category->setCategoryName($name);
 			$category->setCategoryDescription($description);
+			$category->setParentCategoryId($parentId);
 			$category->setStatus(2);
 			$category->setCategoryStatus($categoryStatus);
 			$category->save();
-			$category->move($parentId , 2);
 			$this->_redirect($this->_redirect->getRefererUrl());
     }
 }
