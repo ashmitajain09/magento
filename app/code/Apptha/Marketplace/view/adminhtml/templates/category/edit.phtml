@@ -29,6 +29,7 @@ $category = $block->getCurrentCategory();
 <div>
     <form action='<?php echo $block->saveCategoryUrl(); ?>'
           id="add_category_form" method="post">
+<input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
 
 <div class="product_status" >
 <?php 
