@@ -5,9 +5,9 @@ namespace Apptha\Marketplace\Controller\Adminhtml\Categories;
 /**
  * This class contains the seller review section
  */
- use Magento\Framework\App\Action\Context;
+ use Magento\Backend\App\Action\Context;
  
-class Editcategory extends \Magento\Framework\App\Action\Action
+class Editcategory extends \Magento\Backend\App\Action
 {
 
 	protected $categoryFactory;
@@ -17,13 +17,11 @@ class Editcategory extends \Magento\Framework\App\Action\Action
 	
 	public function __construct(
 		Context $context,
-		\Apptha\Marketplace\Model\CategoryFactory $categoryFactory,
-		\Magento\Customer\Model\Session $session
+		\Apptha\Marketplace\Model\CategoryFactory $categoryFactory
 		
     )
     {
        $this->categoryFactory = $categoryFactory;
-	   $this->session = $session;
 	   parent::__construct($context);
     }
 	
@@ -32,12 +30,7 @@ class Editcategory extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     { 
-       /**
-         * Checking user logged in or not
-         */
-        if ($this->session->isLoggedIn()) {
-            $customerId = $this->session->getId();
-
+      		
             /**
              * Getting query variables
              */
@@ -54,8 +47,5 @@ class Editcategory extends \Magento\Framework\App\Action\Action
 			$category->setCategoryStatus($categoryStatus);
 			$category->save();
 			$this->_redirect($this->_redirect->getRefererUrl());
-        }else{
-            $this->_redirect ( 'marketplace/seller/login' );
-        }
     }
 }

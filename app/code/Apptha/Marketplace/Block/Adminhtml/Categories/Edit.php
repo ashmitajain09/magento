@@ -9,6 +9,8 @@ class Edit extends \Magento\Framework\View\Element\Template
 
 	protected $_categoryFactory;
 	
+	protected $formKey;
+	
     /**
      * Add constructor.
      * @param Template\Context $context
@@ -18,10 +20,12 @@ class Edit extends \Magento\Framework\View\Element\Template
     public function __construct(Template\Context $context, 
 	\Apptha\Marketplace\Model\CategoryFactory $categoryFactory,
 	\Magento\Framework\Message\ManagerInterface $messageManager, 
+	\Magento\Framework\Data\Form\FormKey $formKey,
 	array $data = [])
     {
 		$this->_categoryFactory = $categoryFactory;
         $this->messageManager = $messageManager;
+		$this->formKey = $formKey;
         parent::__construct($context, $data);
     }
 
@@ -31,13 +35,18 @@ class Edit extends \Magento\Framework\View\Element\Template
      * @return string
      */
     public function saveCategoryUrl() {
-        return $this->getUrl ( 'marketplace/categories/editcategory' );
+        return $this->getUrl ( 'marketplaceadmin/categories/editcategory' );
     }
 	
 	
 	public function getCurrentCategory(){
 		$category = $this->_categoryFactory->create()->load($this->getRequest()->getParam('id'));
 		return $category;
+	}
+	
+	public function getFormKey()
+	{
+     	return $this->formKey->getFormKey();
 	}
 	
 	
