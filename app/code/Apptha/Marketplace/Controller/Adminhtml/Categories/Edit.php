@@ -53,7 +53,6 @@ class Edit extends Categories {
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->_resultPageFactory->create ();
         $resultPage->setActiveMenu ( 'Apptha_Marketplace::main_menu' );
-        $resultPage->getConfig ()->getTitle ()->prepend ( __ ( 'Manage Commission' ) );
         return $resultPage;
     }
 }
