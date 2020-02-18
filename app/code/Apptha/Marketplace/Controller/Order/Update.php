@@ -242,7 +242,7 @@ class Update extends \Magento\Framework\App\Action\Action {
              * Change seller order status
              */
             $sellerOrderCollection = $this->_objectManager->get ( 'Apptha\Marketplace\Model\Order' )->getCollection ()->addFieldToFilter ( 'order_id', $order->getId () )->addFieldToFilter ( 'seller_id', $customerSession->getId () )->getFirstItem ();
-            if (count ( $sellerOrderCollection )) {
+            if (is_array( $sellerOrderCollection ) && count ( $sellerOrderCollection )) {
                 /**
                  * To prepare total amount
                  */
@@ -298,7 +298,7 @@ class Update extends \Magento\Framework\App\Action\Action {
          * Update seller order status
          */
         $sellerOrderCollection = $this->_objectManager->get ( 'Apptha\Marketplace\Model\Order' )->getCollection ()->addFieldToFilter ( 'order_id', $order->getId () )->addFieldToFilter ( 'seller_id', $customerSession->getId () )->getFirstItem ();
-        if (count ( $sellerOrderCollection )) {
+        if (is_array($sellerOrderCollection)  && count ( $sellerOrderCollection )) {
             $sellerOrder = $this->_objectManager->get ( 'Apptha\Marketplace\Model\Order' )->load ( $sellerOrderCollection->getId () );
             $sellerOrder->setIsShipped ( 1 );
             if ($sellerOrder->getIsInvoiced () == 1) {
