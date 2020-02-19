@@ -234,7 +234,7 @@ class Vieworder extends \Magento\Framework\View\Element\Template {
         /**
          * Setting for order status flags
          */
-        if (count ( $sellerOrderCollection )) {
+        if (is_array($sellerOrderCollection) && count ( $sellerOrderCollection )) {
             $isInvoiced = $sellerOrderCollection->getIsInvoiced ();
             $isShipped = $sellerOrderCollection->getIsShipped ();
             $isCanceled = $sellerOrderCollection->getIsCanceled ();
