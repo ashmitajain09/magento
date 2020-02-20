@@ -6,4 +6,13 @@
 			<resource ref="anonymous"/>
 		</resources>
 	</route>
+	
+	<route method="GET" url="/V1/marketplace/seller-details/">
+		<service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getDetails"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	
+	
 </routes>
