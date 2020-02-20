@@ -42,11 +42,13 @@ class Massapprove extends \Magento\Backend\App\Action {
 	public function __construct(
         \Magento\Backend\App\Action\Context $context,
 		\Apptha\Marketplace\Model\CategoryFactory $sellerCategoryFactory,
-		\Magento\Catalog\Model\CategoryFactory $categoryFactory
+		\Magento\Catalog\Model\CategoryFactory $categoryFactory,
+		\Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
 	
 		$this->sellerCategoryFactory = $sellerCategoryFactory;
 		$this->categoryFactory = $categoryFactory;
+		$this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 	
@@ -70,12 +72,15 @@ class Massapprove extends \Magento\Backend\App\Action {
 					$cateId = $this->save_category($catName , $parentId);
 					$category->load ( $approvalId )->setMageCategoryId( $cateId  )->save ();
 				}elseif($categoryDetails->getStatus() == 2){
-					
-					$mage_cat = $this->categoryFactory->create()->setStoreId(Store::DEFAULT_STORE_ID)->load($categoryDetails->getMageCategoryId())
+					$storeManagerDataList = $this->_storeManager->getStores();
+					foreach ($storeManagerDataList as $key => $value) {
+				               $mage_cat = $this->categoryFactory->create()->setStoreId($value['id'])->load($categoryDetails->getMageCategoryId())
 																->setData('is_active' , $categoryDetails->getCategoryStatus())
 																->setData('name', $categoryDetails->getCategoryName())
-																->setData('store_data' , Store::DEFAULT_STORE_ID)
+																//->setData('store_data' , $value['id'])
 																->save();
+				     }
+					
 					if($mage_cat->getParentId() != $categoryDetails->getParentCategoryId()){
 						$mage_cat = $mage_cat->move($categoryDetails->getParentCategoryId() , null);
 					}

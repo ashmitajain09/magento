@@ -52,7 +52,7 @@ class Manage extends \Magento\Framework\View\Element\Template
 		$customer = $customerSession->getCustomer();
 		$page=($this->getRequest()->getParam('p'))? $this->getRequest()->getParam('p') : 1;
 		$pageSize=($this->getRequest()->getParam('limit'))? $this->getRequest()->getParam('limit') : 5;
-        $categories = $this->_categoryFactory->create()->getCollection()->addFieldToFilter('customer_id', $customer->getId())->setCurPage($page)->setPageSize($pageSize);
+        $categories = $this->_categoryFactory->create()->getCollection()->addFieldToFilter('customer_id', $customer->getId())->setOrder('id', 'desc')->setCurPage($page)->setPageSize($pageSize);
         return $categories;
 	}
 	

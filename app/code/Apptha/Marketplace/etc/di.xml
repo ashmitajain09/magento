@@ -39,4 +39,8 @@
   <preference for="Magento\Customer\Controller\Account\LoginPost" type="Apptha\Marketplace\Controller\Account\LoginPost" />
   <preference for="Magento\Sales\Block\Order\PrintShipment" type="Magento\Sales\Block\Order\Items" />
 <!--  <preference for="Magento\Checkout\Block\Cart" type="Apptha\Marketplace\Block\Cart" />-->
+  
+  <preference for="Apptha\Marketplace\Api\SellerManagementInterface" type="Apptha\Marketplace\Model\Api\Seller" />
+  
+  
 </config>
