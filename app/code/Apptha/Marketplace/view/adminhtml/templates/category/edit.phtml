@@ -31,7 +31,7 @@ $category = $block->getCurrentCategory();
           id="add_category_form" method="post">
 <input name="form_key" type="hidden" value="<?php echo $block->getFormKey();?>">
 
-<div class="product_status" >
+<!--div class="product_status" >
 <?php 
 $status = $category->getCategoryStatus()
 ?>
@@ -42,6 +42,20 @@ $status = $category->getCategoryStatus()
 	<option value="" ><?php echo __('Please Select'); ?></option>
             <option value="1" <?php if($status == 1){ echo 'selected="selected"'; } ?>><?php echo __('Enable'); ?></option>
             <option value="2"<?php if($status == 2){ echo 'selected="selected"'; } ?>><?php echo __('Disable'); ?></option>
+        </select>
+    </div-->
+	
+<div class="main_cat_status" >
+<?php 
+$main_cat_status = $category->getStatus()
+?>
+        <label for="main_cat_status" class="label"><span><?php echo __('Status') ?></span></label>
+        <select id="main_cat_status" name="status"
+            title="<?php echo __('Status') ?>"
+            class="validate-select" <?php if($main_cat_status == 1){ echo 'disabled'; } ?>>
+	<option value="" ><?php echo __('Please Select'); ?></option>
+            <option value="1" <?php if($main_cat_status == 1){ echo 'selected="selected"'; } ?>><?php echo __('Approve'); ?></option>
+            <option value="0"<?php if($main_cat_status == 0){ echo 'selected="selected"'; } ?>><?php echo __('Disapprove'); ?></option>
         </select>
     </div>
         <p class="mp_seller_comments">
