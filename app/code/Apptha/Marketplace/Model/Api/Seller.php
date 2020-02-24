@@ -14,8 +14,13 @@ class Seller implements SellerManagementInterface
     protected $sellerFactory;
 
     protected $sellerDataFactory;
-
+    /**
+     * @var \Magento\Reports\Model\ResourceModel\Product\Collection
+     */
     protected $productFactory;
+    /**
+     * @var \Magento\Catalog\Api\Data\ProductInterfaceFactory|\Magento\Catalog\Model\ProductFactory
+     */
     protected $productDataFactory;
 
     /**
@@ -25,7 +30,7 @@ class Seller implements SellerManagementInterface
      * @param \Apptha\Marketplace\Model\SellerFactory $sellerFactory
      * @param \Apptha\Marketplace\Api\Data\SellerDataInterfaceFactory $sellerDataFactory
      * @param \Magento\Reports\Model\ResourceModel\Product\Collection $productFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productDataFactory
+     * @param \Magento\Catalog\Api\Data\ProductInterfaceFactory $productDataFactory
      */
     public function __construct(
         \Apptha\Marketplace\Api\Data\CategoryDataInterfaceFactory $categoryDataFactory,
