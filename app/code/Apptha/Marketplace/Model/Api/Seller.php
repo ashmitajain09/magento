@@ -16,6 +16,7 @@ class Seller implements SellerManagementInterface
     protected $sellerDataFactory;
 
     protected $productFactory;
+    protected $productDataFactory;
 
     /**
      * Seller constructor.
@@ -23,14 +24,16 @@ class Seller implements SellerManagementInterface
      * @param \Apptha\Marketplace\Model\CategoryFactory $categoryFactory
      * @param \Apptha\Marketplace\Model\SellerFactory $sellerFactory
      * @param \Apptha\Marketplace\Api\Data\SellerDataInterfaceFactory $sellerDataFactory
-     * @param \Magento\Catalog\Model\ResourceModel\Product\Collection $productFactory
+     * @param \Magento\Reports\Model\ResourceModel\Product\Collection $productFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productDataFactory
      */
     public function __construct(
         \Apptha\Marketplace\Api\Data\CategoryDataInterfaceFactory $categoryDataFactory,
         \Apptha\Marketplace\Model\CategoryFactory $categoryFactory,
         \Apptha\Marketplace\Model\SellerFactory $sellerFactory,
         \Apptha\Marketplace\Api\Data\SellerDataInterfaceFactory $sellerDataFactory,
-        \Magento\Catalog\Model\ResourceModel\Product\Collection $productFactory
+        \Magento\Reports\Model\ResourceModel\Product\Collection $productFactory,
+        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productDataFactory
 
     )
     {
@@ -39,13 +42,14 @@ class Seller implements SellerManagementInterface
         $this->categoryDataFactory = $categoryDataFactory;
         $this->categoryFactory = $categoryFactory;
         $this->productFactory = $productFactory;
+        $this->productDataFactory = $productDataFactory;
     }
 
     /**
      * @param int $sellerId
      * @param int $page
      * @param int $limit
-     * @return \Apptha\Marketplace\Api\Apptha\Marketplace\Api\Data\CategoryDataInterface[]|array
+     * @return \Apptha\Marketplace\Api\Data\CategoryDataInterface[]|array
      */
     public function getCategories($sellerId, $page = 1, $limit = 20)
     {
@@ -69,12 +73,12 @@ class Seller implements SellerManagementInterface
      * @param int $sellerId
      * @param int $page
      * @param int $limit
-     * @return ProductFactory
+     * @return array|\Magento\Catalog\Api\Data\ProductInterface[]
      */
     public function getProducts($sellerId, $page = 1, $limit = 20)
     {
 
-        $product = $this->productFactory->addAttributeToSelect('*')->addAttributeToFilter('seller_id', $sellerId);
+        $product = $this->productFactory->addAttributeToSelect('*')->addAttributeToFilter('seller_id', $sellerId)->setCurPage($page)->setPageSize($limit);
         $product->addAttributeToFilter('visibility', array(
             'eq' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
         ));
@@ -82,7 +86,15 @@ class Seller implements SellerManagementInterface
         /**
          * Return product object
          */
-        return $product;
+        $data = array();
+        foreach ($product as $prod) {
+            $product_data_object = $this->productDataFactory->create();
+            $product_data_object->setSku($prod->getSku());
+            $product_data_object->setEntityId($prod->getEntityId());
+            $product_data_object->setTypeId($prod->getTypeId());
+            $data[] = $product_data_object;
+        }
+        return $data;
     }
 
     /**

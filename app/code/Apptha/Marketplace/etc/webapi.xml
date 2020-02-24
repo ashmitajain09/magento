@@ -1,21 +1,22 @@
 <?xml version="1.0" ?>
-<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-	<route method="GET" url="/V1/marketplace/seller-categories/">
-		<service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getCategories"/>
-		<resources>
-			<resource ref="anonymous"/>
-		</resources>
-	</route>
-	<route method="GET" url="/V1/marketplace/seller-product/:sellerId">
-		<service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getProducts"/>
-		<resources>
-			<resource ref="anonymous"/>
-		</resources>
-	</route>
-	<route method="GET" url="/V1/marketplace/seller-details/">
-		<service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getDetails"/>
-		<resources>
-			<resource ref="anonymous"/>
-		</resources>
-	</route>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="GET" url="/V1/marketplace/seller-categories/">
+        <service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getCategories"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/marketplace/seller-product/">
+        <service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getProducts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route method="GET" url="/V1/marketplace/seller-details/">
+        <service class="Apptha\Marketplace\Api\SellerManagementInterface" method="getDetails"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 </routes>
