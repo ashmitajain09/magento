@@ -7,6 +7,36 @@ namespace Apptha\Marketplace\Controller\Category;
  */
 class Savecategory extends \Magento\Framework\App\Action\Action
 {
+
+    private $customerSession ;
+
+    protected $storeManager;
+
+    /**
+     * Add constructor.
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param PageFactory $pageFactory
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\SessionFactory $customerSession,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
+        \Apptha\Marketplace\Model\CategoryFactory $categoryFactory,
+        \Apptha\Marketplace\Model\SellerFactory $sellerFactory,
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $collecionFactory
+    )
+    {
+        $this->customerSession = $customerSession;
+        $this->storeManager = $storeManager;
+        $this->dateTime = $dateTime;
+        $this->categoryFactory = $categoryFactory;
+        $this->sellerFactory = $sellerFactory;
+        $this->collecionFactory = $collecionFactory;
+        return parent::__construct($context);
+    }
+
+
     /**
      * Save review for seller
      */
@@ -16,7 +46,7 @@ class Savecategory extends \Magento\Framework\App\Action\Action
         /**
          * Creating current user object
          */
-        $customerSession = $this->_objectManager->create('Magento\Customer\Model\Session');
+        $customerSession = $this->customerSession->create();
 
         /**
          * Checking user logged in or not
@@ -31,7 +61,7 @@ class Savecategory extends \Magento\Framework\App\Action\Action
             /**
              * Creating a store object
              */
-            $manager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
+            $manager = $this->storeManager;
             $store = $manager->getStore($id);
             $storeId = $store->getId();
             /**
@@ -43,38 +73,54 @@ class Savecategory extends \Magento\Framework\App\Action\Action
             /**
              * Getting date data using datetime object
              */
-            $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate();
-            /**
-             * Saving category for seller
-             */
-            $categoryModel = $this->_objectManager->create('Apptha\Marketplace\Model\Category');
-            $categoryModel->setCustomerId($customerId);
-            $categoryModel->setCategoryName($name);
-            $categoryModel->setCategoryDescription($description);
-            $categoryModel->setStoreId($storeId);
-			$categoryModel->setParentCategoryId($parentId);
-            /**
-             * Checking for auto approval option
-             */
+            $date = $this->dateTime->gmtDate();
 
-//                $autoApproval = $this->_objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('marketplace/review/approval');
+            $collection = $this->collecionFactory
+                ->create()
+                ->addAttributeToFilter('name',$name)
+                ->setPageSize(1);
 
-            /**
-             * Manipulate based on auto approval option setting
-             */
-//                if ($autoApproval == 1) {
-//                    $reveiwModel->setStatus(1);
-//                    $this->messageManager->addSuccess(__('Your review has been added successfully'));
-//                } else {
-            $categoryModel->setStatus(0);
-            $this->messageManager->addSuccess(__('Your category is awaiting for moderation'));
-//                }
+            if ($collection->getSize()) {
+                $categoryId = $collection->getFirstItem()->getId();
+                $this->messageManager->addNotice(__('Category %1 is already present', $name));
+               
+            }else{
+                /**
+                 * Saving category for seller
+                 */
+                $categoryModel = $this->categoryFactory->create();
+                $categoryModel->setCustomerId($customerId);
+                $categoryModel->setCategoryName($name);
+                $categoryModel->setCategoryDescription($description);
+                $categoryModel->setStoreId($storeId);
+                $categoryModel->setParentCategoryId($parentId);
+                
+                $sellerId = $this->sellerFactory->create()->getCollection()->addFieldToSelect('id')->addFieldToFilter('customer_id' , $customerId)->getFirstItem()->getId();
+                
+                $categoryModel->setSellerId($sellerId);
+                /**
+                 * Checking for auto approval option
+                 */
 
-            /**
-             * Save customer review module for seller
-             */
-            $categoryModel->setCreatedAt($date);
-            $categoryModel->save();
+    //                $autoApproval = $this->_objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('marketplace/review/approval');
+
+                /**
+                 * Manipulate based on auto approval option setting
+                 */
+    //                if ($autoApproval == 1) {
+    //                    $reveiwModel->setStatus(1);
+    //                    $this->messageManager->addSuccess(__('Your review has been added successfully'));
+    //                } else {
+                $categoryModel->setStatus(0);
+                $this->messageManager->addSuccess(__('Your category is awaiting for moderation'));
+    //                }
+
+                /**
+                 * Save customer review module for seller
+                 */
+                $categoryModel->setCreatedAt($date);
+                $categoryModel->save();
+            }
             $this->_redirect($this->_redirect->getRefererUrl());
         }else{
             $this->_redirect ( 'marketplace/seller/login' );

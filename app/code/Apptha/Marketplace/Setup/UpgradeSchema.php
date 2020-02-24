@@ -150,7 +150,20 @@ class UpgradeSchema implements UpgradeSchemaInterface
 	                    'comment' => 'category enable  or disable'
 	                ]
 	            );
-		}
+        }
+        
+        if(version_compare($context->getVersion(), '1.9.3', '<')) {
+            $installer->getConnection()->addColumn(
+                $installer->getTable('marketplace_sellercategory'),
+                'seller_id',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    'length' => 10,
+                    'nullable' => true,
+                    'comment' => 'Seller Id'
+                ]
+            );
+    }
 		
         $installer->endSetup();
     }

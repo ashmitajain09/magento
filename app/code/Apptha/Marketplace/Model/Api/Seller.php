@@ -40,7 +40,7 @@ class Seller implements SellerManagementInterface
      * @return string Greeting message with users name.
      */
     public function getCategories($sellerId , $page = 1 , $limit = 20) {
-        $categories = $this->categoryFactory->create()->getCollection()->addFieldToFilter('customer_id' , $sellerId)->setOrder('id', 'desc')->setCurPage($page)->setPageSize($limit);
+        $categories = $this->categoryFactory->create()->getCollection()->addFieldToFilter('seller_id' , $sellerId)->setOrder('id', 'desc')->setCurPage($page)->setPageSize($limit);
 		$data = array();
 		foreach($categories as $category){
 			$category_data_object = $this->categoryDataFactory->create();

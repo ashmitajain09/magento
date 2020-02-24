@@ -52,8 +52,9 @@ class Editcategory extends \Magento\Framework\App\Action\Action
 			$category->setParentCategoryId($parentId);
 			$category->setStatus(2);
 			$category->setCategoryStatus($categoryStatus);
-			$category->save();
-			$this->_redirect($this->_redirect->getRefererUrl());
+            $category->save();
+            $this->messageManager->addSuccess(__('Your category is awaiting for moderation'));
+            $this->_redirect($this->_redirect->getRefererUrl());            
         }else{
             $this->_redirect ( 'marketplace/seller/login' );
         }
