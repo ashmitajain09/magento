@@ -73,13 +73,12 @@ class Massapprove extends \Magento\Backend\App\Action {
 					$category->load ( $approvalId )->setMageCategoryId( $cateId  )->save ();
 				}elseif($categoryDetails->getStatus() == 2){
 					$storeManagerDataList = $this->_storeManager->getStores();
-					foreach ($storeManagerDataList as $key => $value) {
-				               $mage_cat = $this->categoryFactory->create()->setStoreId($value['id'])->load($categoryDetails->getMageCategoryId())
-																->setData('is_active' , $categoryDetails->getCategoryStatus())
-																->setData('name', $categoryDetails->getCategoryName())
-																//->setData('store_data' , $value['id'])
-																->save();
-				     }
+				//echo $value->getId();exit;
+					$status = $categoryDetails->getCategoryStatus() == 2  ? 0 : $categoryDetails->getCategoryStatus();
+				    $mage_cat = $this->categoryFactory->create()->setStoreId(0)->load($categoryDetails->getMageCategoryId())
+													  ->setData('is_active' , $status)
+											          ->setData('name', $categoryDetails->getCategoryName())
+													  ->save();
 					
 					if($mage_cat->getParentId() != $categoryDetails->getParentCategoryId()){
 						$mage_cat = $mage_cat->move($categoryDetails->getParentCategoryId() , null);
